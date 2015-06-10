@@ -1,0 +1,130 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{67684CDB-60C6-4DD6-886A-B3C00F28FCCC}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Fosol.Core.ServiceModel</RootNamespace>
+    <AssemblyName>Fosol.Core.ServiceModel</AssemblyName>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.ServiceModel.Web" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Serialization" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Behaviors\ComplexQueryBehavior.cs" />
+    <Compile Include="Behaviors\ComplexQueryBehaviorExtensionElement.cs" />
+    <Compile Include="Behaviors\HttpHeaderBehavior.cs" />
+    <Compile Include="Behaviors\HttpHeaderBehaviorExtensionElement.cs" />
+    <Compile Include="Behaviors\ResponseFormatBehavior.cs">
+      <DependentUpon>ResponseFormatBehavior.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Behaviors\ResponseFormatBehaviorExtensionElement.cs" />
+    <Compile Include="Behaviors\UnhandledErrorBehavior.cs" />
+    <Compile Include="Behaviors\UnhandledErrorBehaviorExtensionElement.cs" />
+    <Compile Include="Behaviors\WhiteListBehavior.cs" />
+    <Compile Include="Behaviors\WhiteListBehaviorExtensionElement.cs" />
+    <Compile Include="Behaviors\WhiteListMessageInspector.cs" />
+    <Compile Include="Configuration\HttpHeader\EndpointCollection.cs" />
+    <Compile Include="Configuration\HttpHeader\EndpointElement.cs" />
+    <Compile Include="Configuration\HttpHeader\HeaderCollection.cs" />
+    <Compile Include="Configuration\HttpHeader\HeaderElement.cs" />
+    <Compile Include="Configuration\HttpHeader\HttpHeaderSection.cs" />
+    <Compile Include="Configuration\HttpHeader\ServiceCollection.cs" />
+    <Compile Include="Configuration\HttpHeader\ServiceElement.cs" />
+    <Compile Include="Configuration\WhiteList\EndpointCollection.cs" />
+    <Compile Include="Configuration\WhiteList\EndpointElement.cs" />
+    <Compile Include="Configuration\WhiteList\IpAddressCollection.cs" />
+    <Compile Include="Configuration\WhiteList\IpAddressElement.cs" />
+    <Compile Include="Configuration\WhiteList\ServiceCollection.cs" />
+    <Compile Include="Configuration\WhiteList\ServiceElement.cs" />
+    <Compile Include="Configuration\WhiteList\WhiteListSection.cs" />
+    <Compile Include="Converters\ComplexQueryConverter.cs" />
+    <Compile Include="CorrelationState.cs" />
+    <Compile Include="Exceptions\ServiceException`.cs" />
+    <Compile Include="Exceptions\UnhandledErrorHandler.cs" />
+    <Compile Include="Extensions\Exceptions\ExceptionExtensions.cs" />
+    <Compile Include="Extensions\OperationContexts\OperationContextExtensions.cs" />
+    <Compile Include="Extensions\WebOperationContexts\WebOperationContextExtensions.cs" />
+    <Compile Include="Helpers\WebOperationContextHelper.cs" />
+    <Compile Include="Initialization\Assert.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Resources\Multilingual.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Multilingual.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Validation\Assert.cs" />
+    <Compile Include="WebFaultContract.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Fosol.Core.Configuration\Fosol.Core.Configuration.csproj">
+      <Project>{de96de10-6d19-44ab-bceb-63998698c81e}</Project>
+      <Name>Fosol.Core.Configuration</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Fosol.Core.ServiceModel.Faults\Fosol.Core.ServiceModel.Faults.csproj">
+      <Project>{722a0daf-01ff-4ab1-8623-c26fbb13e15f}</Project>
+      <Name>Fosol.Core.ServiceModel.Faults</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Fosol.Core.Xml\Fosol.Core.Xml.csproj">
+      <Project>{e1265744-531e-421c-9e61-9412a1d9447e}</Project>
+      <Name>Fosol.Core.Xml</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Fosol.Core\Fosol.Core.csproj">
+      <Project>{ade01ea2-7417-40d6-bede-5cc357be9716}</Project>
+      <Name>Fosol.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Behaviors\ResponseFormatBehavior.xsd">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="bin\Debug\" />
+    <Folder Include="bin\Release\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Multilingual.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Multilingual.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

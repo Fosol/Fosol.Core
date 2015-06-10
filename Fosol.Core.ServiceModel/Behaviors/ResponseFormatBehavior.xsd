@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="ResponseFormatBehavior"
+           targetNamespace="http://schema.fosol.ca/ResponseFormatBehavior.xsd"
+           elementFormDefault="qualified"
+           xmlns="http://schema.fosol.ca/ResponseFormatBehavior.xsd"
+           xmlns:mstns="http://schema.fosol.ca/ResponseFormatBehavior.xsd"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+>
+  <xs:element name="responseFormatBehavior" type="ResponseFormatBehaviorConfiguration"/>
+
+  <xs:complexType name="ResponseFormatBehaviorConfiguration">
+    <xs:attribute name="defaultFormat" type="WebMessageFormat" default="Xml"/>
+    <xs:attribute name="queryParamName" type="xs:string" default="format"/>
+  </xs:complexType>
+
+  <xs:simpleType name="WebMessageFormat">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Xml"/>
+      <xs:enumeration value="Json"/>
+    </xs:restriction>
+  </xs:simpleType>
+</xs:schema>
