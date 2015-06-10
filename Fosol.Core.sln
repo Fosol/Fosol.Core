@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.22823.1
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fosol.Core", "Fosol.Core\Fosol.Core.csproj", "{ADE01EA2-7417-40D6-BEDE-5CC357BE9716}"
 EndProject
@@ -20,6 +20,13 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fosol.Core.ServiceModel", "Fosol.Core.ServiceModel\Fosol.Core.ServiceModel.csproj", "{67684CDB-60C6-4DD6-886A-B3C00F28FCCC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fosol.Core.ServiceModel.Faults", "Fosol.Core.ServiceModel.Faults\Fosol.Core.ServiceModel.Faults.csproj", "{722A0DAF-01FF-4AB1-8623-C26FBB13E15F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Fosol.NuGetWrapper", "Fosol.NuGetWrapper", "{45F29AEC-B636-493C-A4AF-8A301F0DB043}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\Fosol.NuGetWrapper\Fosol.NuGetWrapper.README.md = .nuget\Fosol.NuGetWrapper\Fosol.NuGetWrapper.README.md
+		.nuget\Fosol.NuGetWrapper\Fosol.NuGetWrapper.targets = .nuget\Fosol.NuGetWrapper\Fosol.NuGetWrapper.targets
+		.nuget\Fosol.NuGetWrapper\Fosol.NuGetWrapper.xslt = .nuget\Fosol.NuGetWrapper\Fosol.NuGetWrapper.xslt
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
