@@ -48,7 +48,15 @@
       <Name>Fosol.Core</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Fosol.NuGetWrapper.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Fosol.Core.Data.nuspec" />
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="Fosol.NuGetWrapper.csproj" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

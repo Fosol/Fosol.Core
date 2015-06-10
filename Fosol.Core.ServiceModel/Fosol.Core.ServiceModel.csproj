@@ -108,6 +108,8 @@
     <None Include="Behaviors\ResponseFormatBehavior.xsd">
       <SubType>Designer</SubType>
     </None>
+    <None Include="Fosol.Core.ServiceModel.nuspec" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="bin\Debug\" />
@@ -119,7 +121,11 @@
       <LastGenOutput>Multilingual.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Fosol.NuGetWrapper.csproj" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="Fosol.NuGetWrapper.csproj" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
