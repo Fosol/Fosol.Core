@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <Target Name="CopyNuGetPackage" AfterTargets="AfterBuild">
+    <Exec Condition="$(ComputerName) == 'PDJMFOSTER2'"
+          Command="xcopy &quot;$(NuGetPackageOutput)&quot; &quot;C:\Users\jmfoster\SkyDrive\Fosol Solutions\Libraries\NuGetFeed&quot; /y" />
+    <Exec Condition="$(ComputerName) == 'XPS13'"
+          Command="xcopy &quot;$(NuGetPackageOutput)&quot; &quot;C:\Users\jeremy\SkyDrive\Fosol Solutions\Libraries\NuGetFeed&quot; /y" />
+  </Target>
+</Project>
