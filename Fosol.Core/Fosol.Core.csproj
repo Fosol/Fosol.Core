@@ -83,6 +83,10 @@
     <Compile Include="HashCode.cs" />
     <Compile Include="Initialization\Assert.cs" />
     <Compile Include="Initialization\DateTimeHelper.cs" />
+    <Compile Include="Initialization\DefaultsContainer.cs" />
+    <Compile Include="Initialization\DefaultsContainerConfiguration.cs" />
+    <Compile Include="Initialization\GlobalDefaults.cs" />
+    <Compile Include="Initialization\MemberKey.cs" />
     <Compile Include="IO\FileHelper.cs" />
     <Compile Include="IO\StreamHelper.cs" />
     <Compile Include="Linq\Expressions\PredicateHelper.cs" />
