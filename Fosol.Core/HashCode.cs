@@ -36,15 +36,28 @@ namespace Fosol.Core
         /// <summary>
         /// Creates a new instance of a HashCode object.
         /// </summary>
-        /// <typeparam name="T">Type of object that will be used to generate the first hash code.</typeparam>
         /// <param name="obj">Object that will be used to generate the first hash code value.</param>
         /// <returns>A new instance of a HashCode object.</returns>
-        public static HashCode Create<T>(T obj)
+        public static HashCode Create(object obj)
         {
             Fosol.Core.Validation.Argument.Assert.IsNotNull(obj, "obj");
             unchecked
             {
                 return new HashCode(DefaultHash & HashModifier + obj.GetHashCode());
+            }
+        }
+
+        /// <summary>
+        /// Creates a new instance of a HashCode object.
+        /// </summary>
+        /// <typeparam name="T">Type of object that will be used to generate the first hash code.</typeparam>
+        /// <param name="obj">Object that will be used to generate the first hash code value.</param>
+        /// <returns>A new instance of a HashCode object.</returns>
+        public static HashCode Create<T>(T obj)
+        {
+            unchecked
+            {
+                return HashCode.Create(obj);
             }
         }
 
@@ -71,14 +84,25 @@ namespace Fosol.Core
         /// Merges this HashCode object value with the specified object.
         /// This function returns a reference to itself (after it has been updated).
         /// </summary>
+        /// <param name="obj">Object that will be used to merge with the current HashCode Value property.</param>
+        /// <returns>A reference to itself (after it has been updated).</returns>
+        public HashCode Merge(object obj)
+        {
+            Fosol.Core.Validation.Argument.Assert.IsNotNull(obj, "obj");
+            this.Value = this.Value & HashModifier + obj.GetHashCode();
+            return this;
+        }
+
+        /// <summary>
+        /// Merges this HashCode object value with the specified object.
+        /// This function returns a reference to itself (after it has been updated).
+        /// </summary>
         /// <typeparam name="T">Type of object that will be used to generate the first hash code.</typeparam>
         /// <param name="obj">Object that will be used to merge with the current HashCode Value property.</param>
         /// <returns>A reference to itself (after it has been updated).</returns>
         public HashCode Merge<T>(T obj)
         {
-            Fosol.Core.Validation.Argument.Assert.IsNotNull(obj, "obj");
-            this.Value = this.Value & HashModifier + obj.GetHashCode();
-            return this;
+            return this.Merge(obj);
         }
 
         /// <summary>

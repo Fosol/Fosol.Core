@@ -10,47 +10,13 @@ namespace Fosol.Core.Initialization
     public sealed class DefaultsContainerConfiguration
     {
         #region Variables
-        /// <summary>
-        /// Reference to parent DefaultsContainer object that this class will initialize.
-        /// </summary>
-        private readonly DefaultsContainer _Container;
         #endregion
 
         #region Properties
         /// <summary>
-        /// get/set - The value or instance for the specified type.
+        /// get - Reference to parent DefaultsContainer object that this class will initialize.
         /// </summary>
-        /// <param name="type">Type of value or instance.</param>
-        /// <returns>The value or instance for the specified type.</returns>
-        public object this[Type type]
-        {
-            get
-            {
-                return this[type, null];
-            }
-            set
-            {
-                this[type, null] = value;
-            }
-        }
-
-        /// <summary>
-        /// get/set - The value or instance for the specified type and name.
-        /// </summary>
-        /// <param name="type">Type of value or instance.</param>
-        /// <param name="name">Unique name to identify the type.</param>
-        /// <returns>The value or instance for the specified type and name.</returns>
-        public object this[Type type, string name]
-        {
-            get
-            {
-                return this.Resolve(type, name);
-            }
-            set
-            {
-                this.Set(type, name, value);
-            }
-        }
+        private DefaultsContainer Container { get; }
         #endregion
 
         #region Constructors
@@ -60,7 +26,7 @@ namespace Fosol.Core.Initialization
         /// <param name="parent">DefaultsContainer that this class will initialize.</param>
         internal DefaultsContainerConfiguration(DefaultsContainer parent)
         {
-            _Container = parent;
+            this.Container = parent;
         }
         #endregion
 
@@ -68,7 +34,7 @@ namespace Fosol.Core.Initialization
         /// <summary>
         /// Initializes the DefaultsContainer.
         /// </summary>
-        /// <param name="actions"></param>
+        /// <param name="actions">Action method that will configure the default values and instances.</param>
         internal void Initiailize(List<Action<DefaultsContainerConfiguration>> actions)
         {
             foreach (var action in actions)
@@ -84,7 +50,7 @@ namespace Fosol.Core.Initialization
         /// <returns>Default value or instance for the specified type.</returns>
         public object Resolve(Type type)
         {
-            return _Container.Resolve(type);
+            return this.Container.Resolve(type);
         }
 
         /// <summary>
@@ -95,7 +61,7 @@ namespace Fosol.Core.Initialization
         /// <returns>Default value or instance for the specified type and name.</returns>
         public object Resolve(Type type, string name)
         {
-            return _Container.Resolve(type, name);
+            return this.Container.Resolve(type, name);
         }
 
         /// <summary>
@@ -105,7 +71,7 @@ namespace Fosol.Core.Initialization
         /// <returns>Default value or instance for the specified type.</returns>
         public T Resolve<T>()
         {
-            return _Container.Resolve<T>();
+            return this.Container.Resolve<T>();
         }
 
         /// <summary>
@@ -116,7 +82,7 @@ namespace Fosol.Core.Initialization
         /// <returns>Default value or instance for the specified type and name.</returns>
         public T Resolve<T>(string name)
         {
-            return _Container.Resolve<T>(name);
+            return this.Container.Resolve<T>(name);
         }
 
         /// <summary>
@@ -141,7 +107,32 @@ namespace Fosol.Core.Initialization
         /// <param name="value">Default value to initialize with.</param>
         public void Set(Type type, string name, object value)
         {
-            _Container.Items[new MemberKey(type, name)] = value;
+            this.Container.Items[new MemberKey(type, name)] = value;
+        }
+
+        /// <summary>
+        /// Set the default value for the specified type and name.
+        /// This will add the default value if on doesn't already exist for the specified type and name.
+        /// It will overwrite the default value if one has already been set for the specified type and name.
+        /// </summary>
+        /// <typeparam name="T">Type of value or instance.</typeparam>
+        /// <param name="value">Default value to initialize with.</param>
+        public void Set<T>(T value)
+        {
+            this.Set(typeof(T), value);
+        }
+
+        /// <summary>
+        /// Set the default value for the specified type and name.
+        /// This will add the default value if on doesn't already exist for the specified type and name.
+        /// It will overwrite the default value if one has already been set for the specified type and name.
+        /// </summary>
+        /// <typeparam name="T">Type of value or instance.</typeparam>
+        /// <param name="name">Uniue name to identify the value or instance.</param>
+        /// <param name="value">Default value to initialize with.</param>
+        public void Set<T>(string name, T value)
+        {
+            this.Set(typeof(T), name, value);
         }
 
         /// <summary>
@@ -164,7 +155,30 @@ namespace Fosol.Core.Initialization
         /// <param name="value">Default value to initialize with.</param>
         public void Add(Type type, string name, object value)
         {
-            _Container.Items.Add(new MemberKey(type, name), value);
+            this.Container.Items.Add(new MemberKey(type, name), value);
+        }
+
+        /// <summary>
+        /// Add a default value to the container.
+        /// </summary>
+        /// <exception cref="System.ArgumentException">An element with the same key already exists.</exception>
+        /// <typeparam name="T">Type of value or instance.</typeparam>
+        /// <param name="value">Default value to initialize with.</param>
+        public void Add<T>(T value)
+        {
+            this.Add(typeof(T), value);
+        }
+
+        /// <summary>
+        /// Add a default value to the container.
+        /// </summary>
+        /// <exception cref="System.ArgumentException">An element with the same key already exists.</exception>
+        /// <typeparam name="T">Type of value or instance.</typeparam>
+        /// <param name="name">Uniue name to identify the value or instance.</param>
+        /// <param name="value">Default value to initialize with.</param>
+        public void Add<T>(string name, T value)
+        {
+            this.Add(typeof(T), name, value);
         }
         #endregion
     }

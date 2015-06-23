@@ -17,41 +17,18 @@ namespace Fosol.Core.Initialization
         #region Variables
         private readonly System.Threading.ReaderWriterLockSlim _Lock = new System.Threading.ReaderWriterLockSlim();
         private readonly List<Action<DefaultsContainerConfiguration>> _Configure;
-        private bool _IsInitialized;
         #endregion
 
         #region Properties
         /// <summary>
+        /// get/set - Whether the default values and instances have been initialized.
+        /// </summary>
+        public bool IsInitialized { get; private set; }
+
+        /// <summary>
         /// get - Dictionary of default values/instances.
         /// </summary>
         internal Dictionary<MemberKey, object> Items { get; }
-
-        /// <summary>
-        /// get - Value or instance for the specified type.
-        /// </summary>
-        /// <param name="type">Type of object.</param>
-        /// <returns>Value or instance for the specified type.</returns>
-        public object this[Type type]
-        {
-            get
-            {
-                return this.Resolve(type);
-            }
-        }
-
-        /// <summary>
-        /// get - Value or instance for the specified type and name.
-        /// </summary>
-        /// <param name="type">Type of object.</param>
-        /// <param name="name">Unique name to identify the object.</param>
-        /// <returns>Value or instance for the specified type and name.</returns>
-        public object this[Type type, string name]
-        {
-            get
-            {
-                return this.Resolve(type, name);
-            }
-        }
         #endregion
 
         #region Constructors
@@ -61,7 +38,7 @@ namespace Fosol.Core.Initialization
         public DefaultsContainer()
         {
             this.Items = new Dictionary<MemberKey, object>();
-            this._Configure = new List<Action<DefaultsContainerConfiguration>>();
+            _Configure = new List<Action<DefaultsContainerConfiguration>>();
         }
 
         /// <summary>
@@ -87,6 +64,48 @@ namespace Fosol.Core.Initialization
         }
 
         /// <summary>
+        /// Configure this DefaultsContainer by adding the default value or instance for the specified type and name.
+        /// </summary>
+        /// <param name="type">Type of default value or instance.</param>
+        /// <param name="name">Unique name to identify the default value or instance.</param>
+        /// <param name="value">The default value or instance.</param>
+        public void Configure(Type type, string name, object value)
+        {
+            this._Configure.Add(c => c.Add(type, name, value));
+        }
+
+        /// <summary>
+        /// Configure this DefaultsContainer by adding the default value or instance for the specified type.
+        /// </summary>
+        /// <param name="type">Type of default value or instance.</param>
+        /// <param name="value">The default value or instance.</param>
+        public void Configure(Type type, object value)
+        {
+            this._Configure.Add(c => c.Add(type, value));
+        }
+
+        /// <summary>
+        /// Configure this DefaultsContainer by adding the default value or instance for the specified type and name.
+        /// </summary>
+        /// <typeparam name="T">Type of default value or instance.</typeparam>
+        /// <param name="name">Unique name to identify the default value or instance.</param>
+        /// <param name="value">The default value or instance.</param>
+        public void Configure<T>(string name, T value)
+        {
+            this._Configure.Add(c => c.Add<T>(name, value));
+        }
+
+        /// <summary>
+        /// Configure this DefaultsContainer by adding the default value or instance for the specified type.
+        /// </summary>
+        /// <typeparam name="T">Type of default value or instance.</typeparam>
+        /// <param name="value">The default value or instance.</param>
+        public void Configure<T>(T value)
+        {
+            this._Configure.Add(c => c.Add<T>(value));
+        }
+
+        /// <summary>
         /// Initialize the container with the configured values and instances.
         /// This method itself is thread safe, however the actions it performs may not be.
         /// This method will only be executed once.
@@ -96,14 +115,14 @@ namespace Fosol.Core.Initialization
             _Lock.EnterUpgradeableReadLock();
             try
             {
-                if (!_IsInitialized)
+                if (!this.IsInitialized)
                 {
-                    _Lock.ExitWriteLock();
+                    _Lock.EnterWriteLock();
                     try
                     {
                         var config = new DefaultsContainerConfiguration(this);
                         config.Initiailize(this._Configure);
-                        this._IsInitialized = true;
+                        this.IsInitialized = true;
                     }
                     finally
                     {
@@ -120,7 +139,7 @@ namespace Fosol.Core.Initialization
         /// <summary>
         /// Find the MemberKey for the specified type and name.
         /// </summary>
-        /// <param name="type">Type of object.</param>
+        /// <typeparam name="T">Type of value or instance.</typeparam>
         /// <param name="name">Unique name to identify the value or instance.</param>
         /// <returns>MemberKey in the dictionary if it exists.</returns>
         internal MemberKey FindKey(Type type, string name)
@@ -141,18 +160,18 @@ namespace Fosol.Core.Initialization
         /// <summary>
         /// Resolves the type and returns the default value or instance for the specified name.
         /// </summary>
-        /// <param name="type">Type of object.</param>
+        /// <typeparam name="T">Type of value or instance.</typeparam>
         /// <param name="name">Unique name to identify the value or instance.</param>
         /// <returns>Default value or instance for the specified type and name.</returns>
         public object Resolve(Type type, string name)
         {
-            if (!_IsInitialized)
+            if (!this.IsInitialized)
                 this.Initialize();
 
             var key = this.FindKey(type, name);
 
             if (key == null)
-                return null;
+                throw new InvalidOperationException("The specified type and/or name could not be found.  Before attempting to resolve a default value or instance configure the value and add it to the DefaultsContainer.");
 
             return this.Items[key];
         }
@@ -160,7 +179,7 @@ namespace Fosol.Core.Initialization
         /// <summary>
         /// Resolves the type and returns the default value or instance.
         /// </summary>
-        /// <typeparam name="T">Type of object.</typeparam>
+        /// <typeparam name="T">Type of value or instance.</typeparam>
         /// <returns>Default value or instance for the specified type.</returns>
         public T Resolve<T>()
         {
@@ -179,9 +198,32 @@ namespace Fosol.Core.Initialization
         }
 
         /// <summary>
+        /// Resolves the type and returns the default value or instance for the specified name.
+        /// </summary>
+        /// <typeparam name="T">Type of value or instance to return.</typeparam>
+        /// <param name="type">Type of value or instance to resolve.</param>
+        /// <param name="name">Unique name to identify the value or instance.</param>
+        /// <returns>Default value or instance for the specified type and name.</returns>
+        public T Resolve<T>(Type type, string name)
+        {
+            return (T)this.Resolve(type, name);
+        }
+
+        /// <summary>
+        /// Resolves the type and returns the default value or instance for the specified type.
+        /// </summary>
+        /// <typeparam name="T">Type of value or instance to return.</typeparam>
+        /// <param name="type">Type of value or instance to resolve.</param>
+        /// <returns>Default value or instance for the specified type.</returns>
+        public T Resolve<T>(Type type)
+        {
+            return (T)this.Resolve(type);
+        }
+
+        /// <summary>
         /// Determines if the container contains a key for the specified type and name.
         /// </summary>
-        /// <param name="type">Type of object.</param>
+        /// <typeparam name="T">Type of value or instance.</typeparam>
         /// <param name="name">Unique name to identify the value or instance.</param>
         /// <returns>True if the key exists.</returns>
         public bool ContainsKey(Type type, string name)

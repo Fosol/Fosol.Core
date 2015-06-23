@@ -48,7 +48,7 @@ namespace Fosol.Core.Initialization
         /// <returns>A unique hashcode to identify this MemberKey.</returns>
         public override int GetHashCode()
         {
-            return HashCode.Create(this.Type, this.Name).Value;
+            return HashCode.Create(this.Type, this.Name ?? "").Value;
         }
         #endregion
     }
