@@ -536,7 +536,7 @@ namespace Fosol.Core.Validation.Argument
             where T: IComparable
         {
             IsNotNull(value, paramName, message, innerException);
-            if (value.CompareTo(minimum) >= 0)
+            if (((IComparable)value).CompareTo(minimum) == -1)
                 throw new ArgumentOutOfRangeException(String.Format(message ?? Resources.Multilingual.Validation_Argument_Assert_IsMinimum, paramName), innerException);
         }
 
@@ -556,7 +556,7 @@ namespace Fosol.Core.Validation.Argument
         {
             IsNotNull(value, paramName, message, innerException);
             IsTrue(value.HasValue, nameof(value));
-            if (value.Value.CompareTo(minimum) >= 0)
+            if (((IComparable)value.Value).CompareTo(minimum) == -1)
                 throw new ArgumentOutOfRangeException(String.Format(message ?? Resources.Multilingual.Validation_Argument_Assert_IsMinimum, paramName), innerException);
         }
 
@@ -575,7 +575,7 @@ namespace Fosol.Core.Validation.Argument
             where T : IComparable
         {
             IsNotNull(function, paramName, message, innerException);
-            if (function().CompareTo(minimum) >= 0)
+            if (function().CompareTo(minimum) == -1)
                 throw new ArgumentOutOfRangeException(String.Format(message ?? Resources.Multilingual.Validation_Argument_Assert_IsMinimum, paramName), innerException);
         }
         #endregion
@@ -596,7 +596,7 @@ namespace Fosol.Core.Validation.Argument
             where T : IComparable
         {
             IsNotNull(value, paramName, message, innerException);
-            if (value.CompareTo(maximum) <= 0)
+            if (((IComparable)value).CompareTo(maximum) == 1)
                 throw new ArgumentOutOfRangeException(String.Format(message ?? Resources.Multilingual.Validation_Argument_Assert_IsMaximum, paramName), innerException);
         }
 
@@ -616,7 +616,7 @@ namespace Fosol.Core.Validation.Argument
         {
             IsNotNull(value, paramName, message, innerException);
             IsTrue(value.HasValue, nameof(value));
-            if (value.Value.CompareTo(maximum) <= 0)
+            if (((IComparable)value.Value).CompareTo(maximum) == 1)
                 throw new ArgumentOutOfRangeException(String.Format(message ?? Resources.Multilingual.Validation_Argument_Assert_IsMaximum, paramName), innerException);
         }
 
@@ -635,7 +635,7 @@ namespace Fosol.Core.Validation.Argument
             where T : IComparable
         {
             IsNotNull(function, paramName, message, innerException);
-            if (function().CompareTo(maximum) <= 0)
+            if (function().CompareTo(maximum) == 1)
                 throw new ArgumentOutOfRangeException(String.Format(message ?? Resources.Multilingual.Validation_Argument_Assert_IsMaximum, paramName), innerException);
         }
         #endregion
@@ -657,7 +657,7 @@ namespace Fosol.Core.Validation.Argument
             where T : IComparable
         {
             IsNotNull(value, paramName, message, innerException);
-            if (value.CompareTo(minimum) >= 0 && value.CompareTo(maximum) <= 0)
+            if (((IComparable)value).CompareTo(minimum) == -1 && ((IComparable)value).CompareTo(maximum) == 1)
                 throw new ArgumentOutOfRangeException(String.Format(message ?? Resources.Multilingual.Validation_Argument_Assert_IsInRange, paramName), innerException);
         }
 
@@ -678,7 +678,7 @@ namespace Fosol.Core.Validation.Argument
         {
             IsNotNull(value, paramName, message, innerException);
             IsTrue(value.HasValue, nameof(value));
-            if (value.Value.CompareTo(minimum) >= 0 && value.Value.CompareTo(maximum) <= 0)
+            if (((IComparable)value.Value).CompareTo(minimum) == -1 && ((IComparable)value.Value).CompareTo(maximum) == 1)
                 throw new ArgumentOutOfRangeException(String.Format(message ?? Resources.Multilingual.Validation_Argument_Assert_IsInRange, paramName), innerException);
         }
 
@@ -699,7 +699,7 @@ namespace Fosol.Core.Validation.Argument
         {
             IsNotNull(function, paramName, message, innerException);
             var value = function();
-            if (value.CompareTo(minimum) >= 0 && value.CompareTo(maximum) <= 0)
+            if (value.CompareTo(minimum) == -1 && value.CompareTo(maximum) == 1)
                 throw new ArgumentOutOfRangeException(String.Format(message ?? Resources.Multilingual.Validation_Argument_Assert_IsInRange, paramName), innerException);
         }
         #endregion

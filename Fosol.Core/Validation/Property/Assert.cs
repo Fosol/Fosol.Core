@@ -537,7 +537,7 @@ namespace Fosol.Core.Validation.Property
             where T: IComparable
         {
             IsNotNull(value, propertyName, message, innerException);
-            if (value.CompareTo(minimum) >= 0)
+            if (((IComparable)value).CompareTo(minimum) == -1)
                 throw new PropertyOutOfRangeException(String.Format(message ?? Resources.Multilingual.Validation_Property_Assert_IsMinimum, propertyName), innerException);
         }
 
@@ -557,7 +557,7 @@ namespace Fosol.Core.Validation.Property
         {
             IsNotNull(value, propertyName, message, innerException);
             IsTrue(value.HasValue, nameof(value));
-            if (value.Value.CompareTo(minimum) >= 0)
+            if (((IComparable)value.Value).CompareTo(minimum) == -1)
                 throw new PropertyOutOfRangeException(String.Format(message ?? Resources.Multilingual.Validation_Property_Assert_IsMinimum, propertyName), innerException);
         }
 
@@ -576,7 +576,7 @@ namespace Fosol.Core.Validation.Property
             where T : IComparable
         {
             IsNotNull(function, propertyName, message, innerException);
-            if (function().CompareTo(minimum) >= 0)
+            if (function().CompareTo(minimum) == -1)
                 throw new PropertyOutOfRangeException(String.Format(message ?? Resources.Multilingual.Validation_Property_Assert_IsMinimum, propertyName), innerException);
         }
         #endregion
@@ -597,7 +597,7 @@ namespace Fosol.Core.Validation.Property
             where T : IComparable
         {
             IsNotNull(value, propertyName, message, innerException);
-            if (value.CompareTo(maximum) <= 0)
+            if (((IComparable)value).CompareTo(maximum) == 1)
                 throw new PropertyOutOfRangeException(String.Format(message ?? Resources.Multilingual.Validation_Property_Assert_IsMaximum, propertyName), innerException);
         }
 
@@ -617,7 +617,7 @@ namespace Fosol.Core.Validation.Property
         {
             IsNotNull(value, propertyName, message, innerException);
             IsTrue(value.HasValue, nameof(value));
-            if (value.Value.CompareTo(maximum) <= 0)
+            if (((IComparable)value.Value).CompareTo(maximum) == 1)
                 throw new PropertyOutOfRangeException(String.Format(message ?? Resources.Multilingual.Validation_Property_Assert_IsMaximum, propertyName), innerException);
         }
 
@@ -636,7 +636,7 @@ namespace Fosol.Core.Validation.Property
             where T : IComparable
         {
             IsNotNull(function, propertyName, message, innerException);
-            if (function().CompareTo(maximum) <= 0)
+            if (function().CompareTo(maximum) == 1)
                 throw new PropertyOutOfRangeException(String.Format(message ?? Resources.Multilingual.Validation_Property_Assert_IsMaximum, propertyName), innerException);
         }
         #endregion
@@ -658,7 +658,7 @@ namespace Fosol.Core.Validation.Property
             where T : IComparable
         {
             IsNotNull(value, propertyName, message, innerException);
-            if (value.CompareTo(minimum) >= 0 && value.CompareTo(maximum) <= 0)
+            if (((IComparable)value).CompareTo(minimum) == -1 && ((IComparable)value).CompareTo(maximum) == 1)
                 throw new PropertyOutOfRangeException(String.Format(message ?? Resources.Multilingual.Validation_Property_Assert_IsInRange, propertyName), innerException);
         }
 
@@ -679,7 +679,7 @@ namespace Fosol.Core.Validation.Property
         {
             IsNotNull(value, propertyName, message, innerException);
             IsTrue(value.HasValue, nameof(value));
-            if (value.Value.CompareTo(minimum) >= 0 && value.Value.CompareTo(maximum) <= 0)
+            if (((IComparable)value.Value).CompareTo(minimum) == -1 && ((IComparable)value.Value).CompareTo(maximum) == 1)
                 throw new PropertyOutOfRangeException(String.Format(message ?? Resources.Multilingual.Validation_Property_Assert_IsInRange, propertyName), innerException);
         }
 
@@ -700,7 +700,7 @@ namespace Fosol.Core.Validation.Property
         {
             IsNotNull(function, propertyName, message, innerException);
             var value = function();
-            if (value.CompareTo(minimum) >= 0 && value.CompareTo(maximum) <= 0)
+            if (value.CompareTo(minimum) == -1 && value.CompareTo(maximum) == 1)
                 throw new PropertyOutOfRangeException(String.Format(message ?? Resources.Multilingual.Validation_Property_Assert_IsInRange, propertyName), innerException);
         }
         #endregion

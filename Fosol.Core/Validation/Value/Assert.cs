@@ -505,7 +505,7 @@ namespace Fosol.Core.Validation.Value
             where T : IComparable
         {
             IsNotNull(value, message, innerException);
-            if (value.CompareTo(minimum) >= 0)
+            if (((IComparable)value).CompareTo(minimum) == -1)
                 throw new ValueOutOfRangeException(message, innerException);
         }
 
@@ -523,7 +523,7 @@ namespace Fosol.Core.Validation.Value
             where T : IComparable
         {
             IsNotNull(function, message, innerException);
-            if (function().CompareTo(minimum) >= 0)
+            if (function().CompareTo(minimum) == -1)
                 throw new ValueOutOfRangeException(message, innerException);
         }
         #endregion
@@ -543,7 +543,7 @@ namespace Fosol.Core.Validation.Value
             where T : IComparable
         {
             IsNotNull(value, message, innerException);
-            if (value.CompareTo(maximum) <= 0)
+            if (((IComparable)value).CompareTo(maximum) == 1)
                 throw new ValueOutOfRangeException(message, innerException);
         }
 
@@ -561,7 +561,7 @@ namespace Fosol.Core.Validation.Value
             where T : IComparable
         {
             IsNotNull(function, message, innerException);
-            if (function().CompareTo(maximum) <= 0)
+            if (function().CompareTo(maximum) == 1)
                 throw new ValueOutOfRangeException(message, innerException);
         }
         #endregion
@@ -582,7 +582,7 @@ namespace Fosol.Core.Validation.Value
             where T : IComparable
         {
             IsNotNull(value, message, innerException);
-            if (value.CompareTo(minimum) >= 0 && value.CompareTo(maximum) <= 0)
+            if (((IComparable)value).CompareTo(minimum) == -1 && ((IComparable)value).CompareTo(maximum) == 1)
                 throw new ValueOutOfRangeException(message, innerException);
         }
 
@@ -602,7 +602,7 @@ namespace Fosol.Core.Validation.Value
         {
             IsNotNull(function, message, innerException);
             var value = function();
-            if (value.CompareTo(minimum) >= 0 && value.CompareTo(maximum) <= 0)
+            if (value.CompareTo(minimum) == -1 && value.CompareTo(maximum) == 1)
                 throw new ValueOutOfRangeException(message, innerException);
         }
         #endregion

@@ -60,7 +60,7 @@ namespace Fosol.Core.Initialization
         /// <summary>
         /// Resolves the type and returns the default value or instance.
         /// </summary>
-        /// <param name="type">Type of object to resolve.</param>
+        /// <param name="type">Type of value or instance.</param>
         /// <returns>Default value or instance for the specified type.</returns>
         public static object Resolve(Type type)
         {
@@ -70,7 +70,7 @@ namespace Fosol.Core.Initialization
         /// <summary>
         /// Resolves the type and returns the default value or instance for the specified name.
         /// </summary>
-        /// <param name="type">Type of object.</param>
+        /// <typeparam name="T">Type of value or instance.</typeparam>
         /// <param name="name">Unique name to identify the value or instance.</param>
         /// <returns>Default value or instance for the specified type and name.</returns>
         public static object Resolve(Type type, string name)
@@ -81,7 +81,7 @@ namespace Fosol.Core.Initialization
         /// <summary>
         /// Resolves the type and returns the default value or instance.
         /// </summary>
-        /// <typeparam name="T">Type of object.</typeparam>
+        /// <typeparam name="T">Type of value or instance.</typeparam>
         /// <returns>Default value or instance for the specified type.</returns>
         public static T Resolve<T>()
         {
@@ -91,12 +91,35 @@ namespace Fosol.Core.Initialization
         /// <summary>
         /// Resolves the type and returns the default value or instance for the specified name.
         /// </summary>
-        /// <typeparam name="T">Type of object.</typeparam>
+        /// <typeparam name="T">Type of value or instance.</typeparam>
         /// <param name="name">Unique name to identify the value or instance.</param>
         /// <returns>Default value or instance for the specified type and name.</returns>
         public static T Resolve<T>(string name)
         {
             return GlobalDefaults.Container.Resolve<T>(name);
+        }
+
+        /// <summary>
+        /// Resolves the type and returns the default value or instance.
+        /// </summary>
+        /// <typeparam name="T">Type of value or instance.</typeparam>
+        /// <param name="type">Type of value or instance.</param>
+        /// <returns>Default value or instance for the specified type.</returns>
+        public static T Resolve<T>(Type type)
+        {
+            return GlobalDefaults.Container.Resolve<T>(type);
+        }
+
+        /// <summary>
+        /// Resolves the type and returns the default value or instance for the specified name.
+        /// </summary>
+        /// <typeparam name="T">Type of value or instance.</typeparam>
+        /// <param name="type">Type of value or instance.</param>
+        /// <param name="name">Unique name to identify the value or instance.</param>
+        /// <returns>Default value or instance for the specified type and name.</returns>
+        public static T Resolve<T>(Type type, string name)
+        {
+            return GlobalDefaults.Container.Resolve<T>(type, name);
         }
         #endregion
     }
