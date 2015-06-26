@@ -221,7 +221,7 @@ namespace Fosol.Core.Extensions.Strings
 #else
             var default_encoding = Encoding.Default;
 #endif
-            Initialization.Assert.IsNotNull<Encoding>(ref encoding, default_encoding);
+            Initialization.Assert.IsNotNull<Encoding>(ref encoding, ref default_encoding);
             return encoding.GetBytes(value);
         }
 

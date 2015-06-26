@@ -17,6 +17,18 @@ namespace Fosol.Core.Initialization
         /// <typeparam name="T">Type of object.</typeparam>
         /// <param name="value">Reference to original variable.</param>
         /// <param name="initValue">Default value to initialize with.</param>
+        public static void IsNotNull<T>(ref T value, ref T initValue)
+        {
+            if (value == null)
+                value = initValue;
+        }
+
+        /// <summary>
+        /// If the value is null it will initialize to the default value.
+        /// </summary>
+        /// <typeparam name="T">Type of object.</typeparam>
+        /// <param name="value">Reference to original variable.</param>
+        /// <param name="initValue">Default value to initialize with.</param>
         public static void IsNotNull<T>(ref T value, T initValue)
         {
             if (value == null)
@@ -51,8 +63,21 @@ namespace Fosol.Core.Initialization
         /// <typeparam name="T">Type of object.</typeparam>
         /// <param name="value">Reference to original variable.</param>
         /// <param name="initValue">Default value to initialize with.</param>
-        public static void IsNotDefault<T>(ref T value, T initValue)
+        public static void IsNotDefault<T>(ref T value, ref T initValue)
             where T: IComparable
+        {
+            if (value.CompareTo(default(T)) == 0)
+                value = initValue;
+        }
+
+        /// <summary>
+        /// If the value is the default value (i.e. null or 0) it will initialize the value.
+        /// </summary>
+        /// <typeparam name="T">Type of object.</typeparam>
+        /// <param name="value">Reference to original variable.</param>
+        /// <param name="initValue">Default value to initialize with.</param>
+        public static void IsNotDefault<T>(ref T value, T initValue)
+            where T : IComparable
         {
             if (value.CompareTo(default(T)) == 0)
                 value = initValue;
